@@ -45,8 +45,9 @@ def insertar_registro(db, usuario, nombre, tipo,  tamanio, accion, direccion, fe
         return (True, registro_id)
         
     except Exception as e:
-        print(f"Error al insertar registro: {e}")
-        return (False, None)
+        error_msg = f"Error al insertar registro: {e}"
+        print(error_msg)
+        return (False, error_msg)
     
 def eliminar_registro(db, registro_id):
     try:
@@ -126,3 +127,16 @@ def obtener_id_usuario(db, usuario):
         if result:
             return result[0]
         return None
+    
+
+def obtener_ultimo_id(db):
+    try:
+        query = "SELECT COALESCE(MAX(id), 0) FROM registros"
+        with db.conectar() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query)
+                resultado = cur.fetchone()
+                return resultado[0] if resultado else 0
+    except Exception as e:
+        print(f"Error al obtener último ID: {e}")
+        return 0

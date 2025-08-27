@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect
 from db_ops import init_db, mostrar_registros, insertar_registro, eliminar_tabla_registros, admin
-from ops import verificar_ruta, obtener_tamanio, copiar_a_documentos
+from ops import verificar_ruta, obtener_tamanio, copiar_a_documentos, obtener_metadatos
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 db = init_db()
@@ -46,45 +47,52 @@ def procesar_formulario():
     if not validar:
         return "Ruta no válida", 400
     
-    accion_str = ", ".join(acciones) if acciones else "ninguna"
-    
-    tamanio = obtener_tamanio(direccion)
-    tipo = "archivo"
-    nombre = "ImagenPrueba.jpg"
 
+    # 1. Copiar primero con nombre modificado
+    nombre_nuevo = copiar_a_documentos(direccion, db)
+    if not nombre_nuevo:
+        return "Error al copiar", 400
+
+    # 2. Ruta destino ya copiada
+    carpeta_documentos = "/host_home/Copias"
+    ruta_destino = os.path.join(carpeta_documentos, nombre_nuevo)
+
+    # 3. Ahora obtienes los metadatos de ese archivo renombrado
+    metadatos = obtener_metadatos(ruta_destino)
+    if not metadatos:
+        return "No se pudieron obtener metadatos", 400
+
+    nombre = metadatos.get("nombre")
+    tamanio = metadatos.get("tamanio")
+    tipo = metadatos.get("tipo")
+
+    # 4. Guardar en BD con el nombre ya renombrado
     resultado = insertar_registro(
         db=db,
         usuario=id,
         nombre=nombre,
         tipo=tipo,
         tamanio=tamanio,
-        accion= accion_str,
-        direccion=direccion,
+        accion="respaldo",
+        direccion=ruta_destino,
         fecha=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     )
-    if resultado[0]:  # Si fue exitoso
-        realizar_respaldo(direccion)
-        return redirect('/')  # Recarga la página principal
+
+    if resultado[0]:  
+        return redirect('/')
     else:
         return f"Error al guardar: {resultado[1]}", 400
-
-def realizar_respaldo(direccion):
-    copiar = copiar_a_documentos(direccion, "respaldo")
-
-    if not copiar:
-        return f"Error al copiar", 400
-
 
 @app.route('/ProcesarLogin', methods=['GET', 'POST'])
 def validar_credenciales():
     return redirect('/')
 
-@app.route('/ProcesarSingIn', methods=['GET', 'POST'])
+@app.route('/ProcesarSignIn', methods=['GET', 'POST'])
 def crear_usuario():
     return redirect('/')
 
 
-@app.route('/redireccionar_singin', methods=['GET', 'POST'])
+@app.route('/redireccionar_signin', methods=['GET', 'POST'])
 def redireccionar_singin():
     return redirect('/singin')
 
