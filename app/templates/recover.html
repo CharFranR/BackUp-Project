@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recover</title>
+</head>
+<body>
+
+    <section>
+        <form action="/ProcesarRecover" method="post">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Archivo que quiere recuperar" required>
+            </div>
+            <div class="form-actions">
+                <input type="submit" value="recuperar">
+            </div>
+        </form>
+    </section>
+
+    <div>
+        <h2>{{mensaje}}</h2>
+    </div>
+    
+</body>
+</html>

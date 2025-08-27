@@ -1,8 +1,14 @@
-from db_ops import init_db, insertar_registro, eliminar_tabla_registros, mostrar_registros
+from db_ops import init_db, insertar_registro, eliminar_tabla_registros, mostrar_registros, admin
+
+
 
 db = init_db()
 db.crear_tablas()
 """eliminar_tabla_registros (db)"""
+
+
+# Crear o recuperar usuario
+id_usuario = admin(db, "Oscar", "123")
 
 i=3
 
@@ -11,7 +17,7 @@ i=3
 
 while i>1:
     nombre = input ("Nombre: ")
-    usuario = input ("usuario: ")
+    usuario = id_usuario
     tipo = input ("Tipo: ")
     tamanio = input ("Tamanio: ")
     accion = input ("Accion: ")

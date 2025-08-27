@@ -11,16 +11,17 @@
         <h1>Bienvenidos al proyecto IceBackUp</h1>
     </section>
 
+    <header>
+        <form action="/logout" method="GET">
+            <button type="submit">Cerrar Sesión</button>
+        </form>
+    </header>
+
     <section>
         <form action="/procesar" method="POST">
             <div class="form-group">
                 <label for="direccion">Dirección:</label>
                 <input type="text" id="direccion" name="direccion" placeholder="Ingrese la dirección" required>
-            </div>
-
-            <div class="checkbox-group">
-                <label ><input type="checkbox", name="accion", value="respaldo"> respaldo</label>
-                <label ><input type="checkbox", name="accion", value="recuperacion"> recuperacion</label>
             </div>
 
             <div class="form-actions">

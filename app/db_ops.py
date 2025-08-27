@@ -1,5 +1,7 @@
 from db import Database
 from datetime import datetime
+import os 
+import shutil
 
 def init_db():
     """Inicializa la conexión a la base de datos"""
@@ -45,8 +47,9 @@ def insertar_registro(db, usuario, nombre, tipo,  tamanio, accion, direccion, fe
         return (True, registro_id)
         
     except Exception as e:
-        print(f"Error al insertar registro: {e}")
-        return (False, None)
+        error_msg = f"Error al insertar registro: {e}"
+        print(error_msg)
+        return (False, error_msg)
     
 def eliminar_registro(db, registro_id):
     try:
@@ -126,3 +129,79 @@ def obtener_id_usuario(db, usuario):
         if result:
             return result[0]
         return None
+    
+def validar_usuario (db, usuario, contrasenia):
+    query = """
+    SELECT id
+    FROM Usuarios 
+    WHERE usuario = %s AND contrasenia = %s
+    """
+    with db.conectar() as conn:
+        with conn.cursor () as cur:
+            cur.execute(query, (usuario, contrasenia))
+            resultado = cur.fetchone()
+            return resultado [0] if resultado else 0
+
+    
+
+def obtener_ultimo_id(db):
+    try:
+        query = "SELECT COALESCE(MAX(id), 0) FROM registros"
+        with db.conectar() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query)
+                resultado = cur.fetchone()
+                return resultado[0] if resultado else 0
+    except Exception as e:
+        print(f"Error al obtener último ID: {e}")
+        return 0
+    
+
+def obtener_ruta (db,nombre):
+    try:
+        query = """
+        SELECT direccion
+        FROM registros 
+        WHERE nombre = %s;
+        """
+        with db.conectar() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, (nombre,))
+                resultado = cur.fetchone()
+                return resultado[0] if resultado else "Ruta no encontrada"
+    except Exception as e:
+        print(f"Error al obtener ruta: {e}")
+        return "Error al obtener ruta"
+    
+def obtener_registro_por_nombre(db, nombre):
+    try:
+        query = """
+        SELECT nombre, direccion
+        FROM registros
+        WHERE nombre = %s;
+        """
+        with db.conectar() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, (nombre,))
+                row = cur.fetchone()
+                if row:
+                    return {"nombre": row[0], "direccion": row[1]}
+    except Exception as e:
+        print(f"Error al obtener registro: {e}")
+    return None
+
+
+def restaurar_archivo(nombre_copia, direccion_original, carpeta_backup="/host_home/Copias"):
+    import os, shutil
+    try:
+        origen = os.path.join(carpeta_backup, nombre_copia)
+        carpeta_destino = os.path.dirname(direccion_original)
+
+        if not os.path.exists(origen):
+            return f"No existe en backup: {origen}"
+
+        os.makedirs(carpeta_destino, exist_ok=True)
+        shutil.copy(origen, carpeta_destino)
+        return f"Archivo restaurado en {carpeta_destino}"
+    except Exception as e:
+        return f"Error al restaurar archivo: {e}"

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Restaurar - Aplicación YekoBackup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-[#1E90FF] min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full space-y-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <button aria-label="Volver" class="text-[#1E90FF] text-lg" onclick="history.back()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <img src="{{ url_for('static', filename='assets/LogoV2.jpg') }}" alt="Logo de YekoBackup" class="w-20 h-20"/>
+                <h1 class="text-[#1E90FF] font-semibold text-base text-center">Aplicación YekoBackup</h1>
+            </div>
+            <div class="flex justify-center items-center space-x-5 mb-5">
+                <a href="/respaldo" class="tab-button" type="button">Respaldo</a>
+                <a href="/restaurar" class="tab-button active" type="button">Restaurar</a>
+                <a href="/historial" class="tab-button" type="button">Historial</a>
+            </div>
+            <div id="tab-content">
+                <div id="restaurar" class="tab-pane space-x-6">
+                    <div class="text-xs text-[#1E90FF] font-semibold mb-2 flex items-center space-x-1">
+                        <img src="{{ url_for('static', filename='assets/Clock_Load.png') }}" alt="Download" style="margin-left: 20px;" class="w-4 h-4"/>
+                        <p class="text-xs text-[#000000] font-semibold cursor-pointer">Restaurar Archivos</p>
+                    </div>
+                    <p class="text-xs text-[#525252] mb-3 leading-tight">
+                        Elige un respaldo y selecciona qué archivo o carpeta deseas restaurar.
+                    </p>
+                    <div class="relative mb-6">
+                        <input id="fechaRespaldo" type="date" class="input-field mb-4 text-[#7A7A7A]"/>
+                        <input id="ruta2" type="file" class="input-field text-[#7A7A7A]"/>
+                    </div>
+                    <div class="flex justify-center mt-3">
+                     <button type="submit" class="primary-button">
+                        Restaurar
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
