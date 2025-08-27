@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sing In</title>
+</head>
+<body>
+
+     <section>
+        <h1>Bienvenidos al proyecto IceBackUp</h1>
+        <h1>Cree una cuenta</h1>
+    </section>
+
+    <section>
+        <form action="/ProcesarSignIn" method="post">
+            <div>
+                <label for="Usuario">Usuario</label>
+                <input type="text" id="Usuario" name="Usuario" placeholder="Usuario" required>
+
+                <label for="Usuario">Contrasenia</label>
+                <input type="password" id="Contrasenia" name="Contrasenia" placeholder="Contrasenia" required>
+            </div>
+            <div>
+                <input type="submit" value="Registrarse">
+            </div>
+        </form>
+
+        <form action="/redireccionar_login">
+            <div>
+                <input type="submit" value="Iniciar Sesion">
+            </div>           
+        </form>
+
+        <div>{{mensaje}}</div>
+
+    </section>
+</body>
+</html>

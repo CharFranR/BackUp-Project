@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    volumes:
+      - ./app:/app
+      - /c/Users/YE 2025:/host_home    
+      - /c/Users/YE 2025/Documents:/host_documents
+      - /c/Users/YE 2025/Documents:/desktop
+      - /c/Users/YE 2025/Documents:/pictures
+
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mydatabase
+    ports:
+      - "5000:5000"
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
