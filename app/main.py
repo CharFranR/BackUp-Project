@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect
-from db_ops import init_db, mostrar_registros, insertar_registro, eliminar_tabla_registros, admin, obtener_ruta, restaurar_archivo
+from flask import Flask, render_template, request, redirect, session
+from db_ops import init_db, mostrar_registros, insertar_registro, eliminar_tabla_registros, admin, obtener_ruta, restaurar_archivo, validar_usuario
 from ops import verificar_ruta, copiar_a_documentos, obtener_metadatos
 from datetime import datetime
 import os
@@ -11,6 +11,7 @@ usuario = 'Oscar'
 contrasenia = '123'
 id = admin(db, usuario, contrasenia)
 
+app.secret_key = "una_clave_secreta_segura"
 
 ###Paginas visitables
 @app.route('/', methods=['GET', 'POST'])
@@ -47,9 +48,10 @@ def procesar_recover():
 def login():
     return render_template('login.html')
 
-@app.route('/singin', methods=['GET', 'POST'])
+@app.route('/signin', methods=['GET', 'POST'])
 def singin():
-    return render_template('singin.html')
+
+    return render_template('signin.html')
 
 
 ###Direcciones de funciones
@@ -112,15 +114,27 @@ def restore():
 
 @app.route('/ProcesarLogin', methods=['GET', 'POST'])
 def validar_credenciales():
-    return redirect('/')
+
+    usuario = request.form.get('Usuario')
+    contrasenia = request.form.get('Contrasenia')
+    validacion = validar_usuario (db,usuario,contrasenia)
+
+    if validacion != 0:
+        session['usuario'] = usuario
+        return redirect('/')
+    else:
+        return redirect('/login')
 
 @app.route('/ProcesarSignIn', methods=['GET', 'POST'])
-def crear_usuario():
-    return redirect('/')
+def añadir_usuario():
+    usuario = request.form.get('Usuario')
+    contrasenia = request.form.get('Contrasenia')
+    id = admin(db,usuario,contrasenia)
+    return redirect('/login')
 
 @app.route('/redireccionar_signin', methods=['GET', 'POST'])
-def redireccionar_singin():
-    return redirect('/singin')
+def redireccionar_signin():
+    return redirect('/signin')
 
 @app.route('/redireccionar_login', methods=['GET', 'POST'])
 def redireccionar_login():
@@ -136,6 +150,11 @@ def borrar_registros():
 @app.route('/restore', methods=['GET', 'POST'])
 def redireccionar_restore():
     return render_template('restore.html')
+
+@app.route('/logout')
+def logout():
+    session.pop("usuario", None)
+    return redirect('/login')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

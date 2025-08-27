@@ -13,24 +13,27 @@
     </section>
 
     <section>
-        <form action="/ProcesarSingIn">
+        <form action="/ProcesarSignIn" method="post">
             <div>
-                 <label for="direccion">Usuario</label>
-                <input type="text" placeholder="Usuario" required>
+                <label for="Usuario">Usuario</label>
+                <input type="text" id="Usuario" name="Usuario" placeholder="Usuario" required>
 
-                <label for="direccion">Contraseña</label>
-                <input type="password" placeholder="Contraseña" required>
+                <label for="Usuario">Contrasenia</label>
+                <input type="password" id="Contrasenia" name="Contrasenia" placeholder="Contrasenia" required>
             </div>
             <div>
-                <input type="submit", value="Registrarse">
+                <input type="submit" value="Registrarse">
             </div>
         </form>
 
         <form action="/redireccionar_login">
             <div>
-                <input type="submit", value="Iniciar Sesion">
+                <input type="submit" value="Iniciar Sesion">
             </div>           
         </form>
+
+        <div>{{mensaje}}</div>
+
     </section>
 </body>
 </html>

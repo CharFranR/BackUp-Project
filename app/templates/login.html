@@ -13,23 +13,28 @@
     </section>
 
     <section>
-        <form action="/ProcesarLogin">
+        <form action="/ProcesarLogin" method="post">
             <div>
-                <label for="direccion">Usuario</label>
-                <input type="text" placeholder="Usuario" required>
+                <label for="Usuario">Usuario</label>
+                <input type="text" id="Usuario" name="Usuario" placeholder="Usuario" required>
 
-                <label for="direccion">Contraseña</label>
-                <input type="password" placeholder="Contraseña" required>
+                <label for="Usuario">Contrasenia</label>
+                <input type="password" id="Contrasenia" name="Contrasenia" placeholder="Contrasenia" required>
             </div>
             <div>
-                <input type="submit", value="Iniciar Serion">
+                <input type="submit" value="Iniciar Serion">
             </div>
         </form>
-        <form action="/redireccionar_singin">
+        <form action="/redireccionar_signin">
             <div>
-                <input type="submit", value="Crear cuenta">
+                <input type="submit" value="Crear cuenta">
             </div>
         </form>
+
+        <div>
+            {{mensaje}}
+        </div>
+
     </section>
 </body>
 </html>

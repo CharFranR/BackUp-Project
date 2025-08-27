@@ -130,6 +130,19 @@ def obtener_id_usuario(db, usuario):
             return result[0]
         return None
     
+def validar_usuario (db, usuario, contrasenia):
+    query = """
+    SELECT id
+    FROM Usuarios 
+    WHERE usuario = %s AND contrasenia = %s
+    """
+    with db.conectar() as conn:
+        with conn.cursor () as cur:
+            cur.execute(query, (usuario, contrasenia))
+            resultado = cur.fetchone()
+            return resultado [0] if resultado else 0
+
+    
 
 def obtener_ultimo_id(db):
     try:
