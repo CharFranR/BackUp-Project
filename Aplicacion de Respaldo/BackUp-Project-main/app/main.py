@@ -27,13 +27,13 @@ def home():
         
     registros = data if isinstance(data, list) else []
 
-    return render_template('historial.html', registros=data)
-
+    return render_template('home.html', registros=data)
 
 @app.route('/recover', methods=['GET', 'POST'])
 
 def mostrar_recover():
     return render_template('recover.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
