@@ -80,3 +80,11 @@ def copiar_a_documentos(ruta_origen, db):
     except Exception as e:
         print(f"Error al copiar: {e}")
         return False
+    
+
+def recuperar_archivo(nombre):
+
+    
+
+
+    return 0

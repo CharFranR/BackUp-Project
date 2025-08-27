@@ -1,5 +1,7 @@
 from db import Database
 from datetime import datetime
+import os 
+import shutil
 
 def init_db():
     """Inicializa la conexión a la base de datos"""
@@ -140,3 +142,44 @@ def obtener_ultimo_id(db):
     except Exception as e:
         print(f"Error al obtener último ID: {e}")
         return 0
+    
+
+def obtener_ruta (db,nombre):
+    try:
+        query = """
+        SELECT direccion
+        FROM registros 
+        WHERE nombre = %s;
+        """
+        with db.conectar() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, (nombre,))
+                resultado = cur.fetchone()
+                return resultado[0] if resultado else "Ruta no encontrada"
+    except Exception as e:
+        print(f"Error al obtener ruta: {e}")
+        return "Error al obtener ruta"
+    
+def restaurar_archivo(ruta_bd, carpeta_backup="/host_home/Copias"):
+    """
+    Copia un archivo desde la carpeta de backup a la carpeta original.
+    """
+    try:
+        nombre_archivo = os.path.basename(ruta_bd)        # "Gato.png"
+        carpeta_destino = os.path.dirname(ruta_bd)        # "/host_documents"
+        origen = os.path.join(carpeta_backup, nombre_archivo)  # "/host_home/Copias/Gato.png"
+        destino = os.path.join(carpeta_destino, nombre_archivo)
+
+        # Imprimir para depuración
+        print(f"Origen: {origen}")
+        print(f"Destino: {destino}")
+
+        if not os.path.exists(origen):
+            return f"El archivo no existe en el backup: {origen}"
+
+        os.makedirs(carpeta_destino, exist_ok=True)
+        shutil.copy(origen, destino)
+
+        return f"Archivo {nombre_archivo} restaurado en {carpeta_destino}"
+    except Exception as e:
+        return f"Error al restaurar archivo: {e}"

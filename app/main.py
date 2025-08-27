@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
-from db_ops import init_db, mostrar_registros, insertar_registro, eliminar_tabla_registros, admin
-from ops import verificar_ruta, obtener_tamanio, copiar_a_documentos, obtener_metadatos
+from db_ops import init_db, mostrar_registros, insertar_registro, eliminar_tabla_registros, admin, obtener_ruta, restaurar_archivo
+from ops import verificar_ruta, copiar_a_documentos, obtener_metadatos
 from datetime import datetime
 import os
 
@@ -28,6 +28,21 @@ def home():
 
     return render_template('home.html', registros=data)
 
+@app.route('/recover', methods=['GET', 'POST'])
+
+def procesar_recover():
+    nombre = request.form.get('nombre', '').strip()
+    ruta = obtener_ruta(db, nombre)
+    
+    if ruta and ruta.startswith("/host_documents"):
+        mensaje = restaurar_archivo(ruta, carpeta_backup="/host_home/Copias")
+    else:
+        mensaje = "Ruta no válida o no encontrada"
+    
+    return render_template('recover.html', mensaje=mensaje)
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
@@ -41,7 +56,6 @@ def singin():
 @app.route('/procesar', methods=['GET', 'POST'])
 def procesar_formulario():
     direccion = request.form.get('direccion')
-    acciones = request.form.getlist('accion') 
 
     validar = verificar_ruta(direccion)
     if not validar:
@@ -74,7 +88,7 @@ def procesar_formulario():
         tipo=tipo,
         tamanio=tamanio,
         accion="respaldo",
-        direccion=ruta_destino,
+        direccion=direccion,
         fecha=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     )
 
@@ -82,6 +96,19 @@ def procesar_formulario():
         return redirect('/')
     else:
         return f"Error al guardar: {resultado[1]}", 400
+    
+
+@app.route('/ProcesarRecover', methods=[ 'GET','POST'])
+def restore():
+    nombre = request.form.get('nombre', '').strip()
+    ruta = obtener_ruta(db, nombre)
+
+    if ruta.startswith("/"):
+        mensaje = restaurar_archivo(ruta, carpeta_backup="/host_home/Copias")
+    else:
+        mensaje = "Ruta no válida"
+
+    return render_template('recover.html', mensaje=mensaje)
 
 @app.route('/ProcesarLogin', methods=['GET', 'POST'])
 def validar_credenciales():
@@ -90,7 +117,6 @@ def validar_credenciales():
 @app.route('/ProcesarSignIn', methods=['GET', 'POST'])
 def crear_usuario():
     return redirect('/')
-
 
 @app.route('/redireccionar_signin', methods=['GET', 'POST'])
 def redireccionar_singin():
@@ -105,6 +131,11 @@ def redireccionar_login():
 def borrar_registros():
     eliminar = eliminar_tabla_registros(db)
     return redirect('/')
+
+
+@app.route('/restore', methods=['GET', 'POST'])
+def redireccionar_restore():
+    return render_template('restore.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
