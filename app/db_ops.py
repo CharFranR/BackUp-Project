@@ -173,26 +173,35 @@ def obtener_ruta (db,nombre):
         print(f"Error al obtener ruta: {e}")
         return "Error al obtener ruta"
     
-def restaurar_archivo(ruta_bd, carpeta_backup="/host_home/Copias"):
-    """
-    Copia un archivo desde la carpeta de backup a la carpeta original.
-    """
+def obtener_registro_por_nombre(db, nombre):
     try:
-        nombre_archivo = os.path.basename(ruta_bd)        # "Gato.png"
-        carpeta_destino = os.path.dirname(ruta_bd)        # "/host_documents"
-        origen = os.path.join(carpeta_backup, nombre_archivo)  # "/host_home/Copias/Gato.png"
-        destino = os.path.join(carpeta_destino, nombre_archivo)
+        query = """
+        SELECT nombre, direccion
+        FROM registros
+        WHERE nombre = %s;
+        """
+        with db.conectar() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, (nombre,))
+                row = cur.fetchone()
+                if row:
+                    return {"nombre": row[0], "direccion": row[1]}
+    except Exception as e:
+        print(f"Error al obtener registro: {e}")
+    return None
 
-        # Imprimir para depuración
-        print(f"Origen: {origen}")
-        print(f"Destino: {destino}")
+
+def restaurar_archivo(nombre_copia, direccion_original, carpeta_backup="/host_home/Copias"):
+    import os, shutil
+    try:
+        origen = os.path.join(carpeta_backup, nombre_copia)
+        carpeta_destino = os.path.dirname(direccion_original)
 
         if not os.path.exists(origen):
-            return f"El archivo no existe en el backup: {origen}"
+            return f"No existe en backup: {origen}"
 
         os.makedirs(carpeta_destino, exist_ok=True)
-        shutil.copy(origen, destino)
-
-        return f"Archivo {nombre_archivo} restaurado en {carpeta_destino}"
+        shutil.copy(origen, carpeta_destino)
+        return f"Archivo restaurado en {carpeta_destino}"
     except Exception as e:
         return f"Error al restaurar archivo: {e}"

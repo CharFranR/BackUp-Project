@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session
-from db_ops import init_db, mostrar_registros, insertar_registro, eliminar_tabla_registros, admin, obtener_ruta, restaurar_archivo, validar_usuario
+from db_ops import init_db, mostrar_registros, insertar_registro, eliminar_tabla_registros, admin, obtener_ruta, restaurar_archivo, validar_usuario, obtener_registro_por_nombre
 from ops import verificar_ruta, copiar_a_documentos, obtener_metadatos
 from datetime import datetime
 import os
@@ -31,17 +31,8 @@ def home():
 
 @app.route('/recover', methods=['GET', 'POST'])
 
-def procesar_recover():
-    nombre = request.form.get('nombre', '').strip()
-    ruta = obtener_ruta(db, nombre)
-    
-    if ruta and ruta.startswith("/host_documents"):
-        mensaje = restaurar_archivo(ruta, carpeta_backup="/host_home/Copias")
-    else:
-        mensaje = "Ruta no válida o no encontrada"
-    
-    return render_template('recover.html', mensaje=mensaje)
-
+def mostrar_recover():
+    return render_template('recover.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -101,14 +92,17 @@ def procesar_formulario():
     
 
 @app.route('/ProcesarRecover', methods=[ 'GET','POST'])
-def restore():
-    nombre = request.form.get('nombre', '').strip()
-    ruta = obtener_ruta(db, nombre)
+def procesar_recover():
+    nombre = request.form.get('nombre')  # O 'Nombre' según el form
+    registro = obtener_registro_por_nombre(db, nombre)
 
-    if ruta.startswith("/"):
-        mensaje = restaurar_archivo(ruta, carpeta_backup="/host_home/Copias")
+    if registro:
+        mensaje = restaurar_archivo(
+            nombre_copia=registro['nombre'],
+            direccion_original=registro['direccion']
+        )
     else:
-        mensaje = "Ruta no válida"
+        mensaje = "No se encontró el registro"
 
     return render_template('recover.html', mensaje=mensaje)
 
