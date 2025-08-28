@@ -18,12 +18,11 @@
     </header>
 
     <section>
-        <form action="/procesar" method="POST">
+        <form action="/procesar" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" placeholder="Ingrese la dirección" required>
+                <label for="archivo">Selecciona un archivo para respaldar:</label>
+                <input type="file" id="archivo" name="archivo" required>
             </div>
-
             <div class="form-actions">
                 <input type="submit" value="Enviar">
             </div>
