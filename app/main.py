@@ -16,27 +16,19 @@ app.secret_key = "una_clave_secreta_segura"
 
 ###Paginas visitables
 @app.route('/', methods=['GET', 'POST'])
-
-def home():
-    return render_template('home.html')
-
-@app.route('/recover', methods=['GET', 'POST'])
-
-def mostrar_recover():
-    return render_template('recover.html')
-
-
-@app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
 
-@app.route('/signin', methods=['GET', 'POST'])
-def singin():
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    return render_template('home.html')
 
-    return render_template('signin.html')
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    return render_template('register.html')
 
 @app.route('/respaldo', methods=['GET', 'POST'])
-def respaldo():
+def mostrar_recover():
     return render_template('respaldo.html')
 
 @app.route('/restaurar', methods=['GET', 'POST'])
@@ -124,7 +116,7 @@ def procesar_recover():
     else:
         mensaje = "No se encontró el registro"
 
-    return render_template('restaurar.html', mensaje=mensaje)
+    return redirect('/restaurar')
 
 @app.route('/ProcesarLogin', methods=['GET', 'POST'])
 def validar_credenciales():

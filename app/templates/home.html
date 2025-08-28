@@ -17,7 +17,7 @@
             <ul>
                 <li><a href="">Inicio</a></li>
                 <li><a href="/respaldo">Aplicacion</a></li>
-                <li><a href="#Documentacion">Documentacion</a></li>
+                <li><a href="/" type="button" action="/logout" >Cerrar Sesión</a></li>
             </ul>
         </nav>
     </header>
@@ -29,13 +29,12 @@
             <div class="hero-text">
                 <h1>Automatiza hoy</h1>
                 <h1 class="blue-text">Recupera Siempre</h1>
-                <p>Automatiza respaldos de archivos importantes<br>y permite restaurarlos</p>
-                <button class="cta-button">Iniciar Sesion</button>
+                <p>Automatiza respaldos de archivos importantes<br>y permite restaurarlos</p><br>
             </div>
         </section>
         
         <section class="features-section">
-            <div id="Documentacion" class="circle-features-main">
+            <div class="circle-features-main">
             <img src="{{ url_for('static', filename='assets/img3.png') }}" alt="Img Respaldo" class="img-3">
             <img src="{{ url_for('static', filename='assets/img1.png') }}" alt="Img Respaldo" class="img-1">
             <img src="{{ url_for('static', filename='assets/img2.png') }}" alt="Img Respaldo" class="img-2">

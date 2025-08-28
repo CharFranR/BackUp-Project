@@ -12,9 +12,9 @@
     <div class="max-w-md w-full space-y-6">
         <div class="bg-white rounded-lg shadow-md p-6">
             <div class="flex items-center justify-center space-x-3 mb-4">
-                <button aria-label="Volver" class="text-[#1E90FF] text-lg" onclick="history.back()">
+                <a href="/home" aria-label="Volver" class="text-[#1E90FF] text-lg">
                     <i class="fas fa-arrow-left"></i>
-                </button>
+                </a>
                 <img src="{{ url_for('static', filename='assets/LogoV2.jpg') }}" alt="Logo de YekoBackup" class="w-20 h-20"/>
                 <h1 class="text-[#1E90FF] font-semibold text-base text-center">Aplicación YekoBackup</h1>
             </div>
@@ -33,7 +33,7 @@
                         Elige un respaldo y selecciona qué archivo o carpeta deseas restaurar.
                     </p>
                     <section>
-                        <form action="/ProcesarRecover" method="POST" enctype="multipart/form-data">
+                        <form action="/ProcesarRecover" method="POST">
                             <div class="form-group relative mb-8">
                                 <label for="nombre" class="font-semibold cursor-pointer text-xs text-[#000000] mb-3">Nombre:</label>
                                 <input class="input-field text-[##595959]" type="text" id="nombre" name="nombre"  placeholder="Archivo que quiere recuperar" required>
