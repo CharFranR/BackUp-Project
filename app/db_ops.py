@@ -4,10 +4,21 @@ import os
 import shutil
 
 def init_db():
-    """Inicializa la conexión a la base de datos"""
+    """
+    La función `init_db` inicializa una conexión a la base de datos retornando un objeto `Database`.
+    :return: Se retorna una instancia de la clase `Database`.
+    """
     return Database()
 
 def admin(db, usuario, contrasenia):
+    """
+    La función `admin` intenta insertar un nuevo usuario en la base de datos, retornando el ID del usuario si tiene éxito.
+    
+    :param db: El parámetro `db` es un objeto que representa la conexión o sesión a la base de datos. Se utiliza para ejecutar consultas y confirmar transacciones.
+    :param usuario: El parámetro `usuario` representa el nombre de usuario que se desea insertar o recuperar de la base de datos.
+    :param contrasenia: El parámetro `contrasenia` representa la contraseña del usuario que se está agregando o verificando en la base de datos.
+    :return: La función retorna el `id` del usuario si ya existe o si se inserta correctamente. Si ocurre un error, retorna `None`.
+    """
     try:
         id_usuario = obtener_id_usuario(db, usuario)
         if id_usuario:
@@ -29,6 +40,19 @@ def admin(db, usuario, contrasenia):
         return None
 
 def insertar_registro(db, usuario, nombre, tipo,  tamanio, accion, direccion, fecha):
+    """
+     La función `insertar_registro` inserta un nuevo registro en la base de datos con los valores especificados y retorna el ID del registro insertado.
+    
+    :param db: Objeto de conexión a la base de datos.
+    :param usuario: ID del usuario asociado al registro.
+    :param nombre: Nombre del registro o entrada a insertar.
+    :param tipo: Tipo del registro (por ejemplo, "documento", "imagen", etc.).
+    :param tamanio: Tamaño del dato almacenado (por ejemplo, tamaño del archivo en bytes).
+    :param accion: Acción asociada al registro (por ejemplo, 'crear', 'actualizar', 'eliminar').
+    :param direccion: Dirección o ubicación asociada al registro.
+    :param fecha: Fecha y hora del registro, en formato '%Y-%m-%d %H:%M:%S'.
+    :return: Una tupla con un booleano indicando éxito (True) o error (False), y el ID insertado o mensaje de error.
+    """
     try:
         query = """
         INSERT INTO registros (nombre, id_usuarios, tipo, tamanio, accion, direccion, fecha)
@@ -52,6 +76,13 @@ def insertar_registro(db, usuario, nombre, tipo,  tamanio, accion, direccion, fe
         return (False, error_msg)
     
 def eliminar_registro(db, registro_id):
+    """
+    Esta función elimina un registro de la base de datos según el ID proporcionado y retorna un mensaje de éxito si se elimina correctamente.
+    
+    :param db: Objeto de conexión a la base de datos.
+    :param registro_id: Identificador único del registro a eliminar.
+    :return: Una tupla con un booleano y un mensaje. Si se elimina, el mensaje incluye el nombre y el ID del registro. Si no existe, retorna un mensaje diferente. Si ocurre una excepción, retorna un mensaje de error.
+    """
     try:
         query = "DELETE FROM registros WHERE id = %s RETURNING nombre"
         
@@ -72,6 +103,12 @@ def eliminar_registro(db, registro_id):
 
  
 def eliminar_tabla_registros(db):
+    """
+    La función `eliminar_tabla_registros` intenta eliminar la tabla 'registros' de la base de datos y retorna un mensaje de éxito si la operación es exitosa.
+    
+    :param db: Objeto de conexión a la base de datos.
+    :return: Una tupla con un booleano y un mensaje. Si la tabla se elimina correctamente, retorna `(True, "Tabla 'registros' eliminada exitosamente")`. Si ocurre un error, retorna `(False, error_msg)`.
+    """
     try:
         with db.conectar() as conn:
             with conn.cursor() as cur:
@@ -88,6 +125,14 @@ def eliminar_tabla_registros(db):
 
 
 def mostrar_registros(db, filtro_id=None):
+    """
+    La función `mostrar_registros` recupera registros de la base de datos y los retorna en orden descendente por fecha.
+    
+    :param db: Objeto de conexión a la base de datos.
+    :param filtro_id: (Opcional) Filtro por ID.
+    :return: Una tupla. El primer elemento es un booleano indicando éxito (True) o error (False). El segundo elemento es una lista de diccionarios con los registros recuperados o un mensaje de error.
+    if successful, or an error message if an exception occurred during the process.
+    """
    
     try:
         query = """
@@ -121,6 +166,13 @@ def mostrar_registros(db, filtro_id=None):
     
 
 def obtener_id_usuario(db, usuario):
+    """
+    La función `obtener_id_usuario` recupera el ID de un usuario de la base de datos según el nombre de usuario proporcionado.
+    
+    :param db: Objeto de conexión a la base de datos.
+    :param usuario: Nombre de usuario a buscar.
+    :return: El ID del usuario si existe, de lo contrario retorna `None`.
+    """
     query = "SELECT id FROM usuarios WHERE usuario = %s"
     with db.conectar() as conn:
         with conn.cursor() as cur:
@@ -131,6 +183,14 @@ def obtener_id_usuario(db, usuario):
         return None
     
 def validar_usuario (db, usuario, contrasenia):
+    """
+    Esta función valida un usuario comprobando su nombre y contraseña en la base de datos.
+    
+    :param db: Objeto de conexión a la base de datos.
+    :param usuario: Nombre de usuario.
+    :param contrasenia: Contraseña.
+    :return: El ID del usuario si la combinación es correcta, de lo contrario retorna 0.
+    """
     query = """
     SELECT id
     FROM Usuarios 
@@ -145,6 +205,12 @@ def validar_usuario (db, usuario, contrasenia):
     
 
 def obtener_ultimo_id(db):
+    """
+    La función `obtener_ultimo_id` recupera el valor más alto de ID de la tabla `registros` en la base de datos, manejando excepciones y retornando 0 si ocurre un error.
+    
+    :param db: Objeto de conexión a la base de datos.
+    :return: El último ID de la tabla "registros". Si ocurre un error, retorna 0.
+    """
     try:
         query = "SELECT COALESCE(MAX(id), 0) FROM registros"
         with db.conectar() as conn:
@@ -158,6 +224,13 @@ def obtener_ultimo_id(db):
     
 
 def obtener_ruta (db,nombre):
+    """
+    La función "obtener_ruta" recupera la dirección asociada a un nombre dado desde la base de datos.
+    
+    :param db: Objeto de conexión a la base de datos.
+    :param nombre: Nombre del registro para obtener la ruta (dirección).
+    :return: La dirección correspondiente al nombre dado si se encuentra. Si no existe, retorna "Ruta no encontrada". Si ocurre una excepción, retorna "Error al obtener ruta".
+    """
     try:
         query = """
         SELECT direccion
@@ -174,6 +247,13 @@ def obtener_ruta (db,nombre):
         return "Error al obtener ruta"
     
 def obtener_registro_por_nombre(db, nombre):
+    """
+     La función `obtener_registro_por_nombre` recupera un registro de la base de datos por nombre.
+    
+    :param db: Objeto de conexión a la base de datos.
+    :param nombre: Nombre del registro a buscar.
+    :return: Si la consulta es exitosa y se encuentra el registro, retorna un diccionario con el nombre y la dirección. Si ocurre un error, retorna None.
+    """
     try:
         query = """
         SELECT nombre, direccion
@@ -192,6 +272,14 @@ def obtener_registro_por_nombre(db, nombre):
 
 
 def restaurar_archivo(nombre_copia, direccion_original, carpeta_backup="/host_home/Copias"):
+    """
+    Esta función restaura un archivo desde una carpeta de respaldo a su ubicación original.
+    
+    :param nombre_copia: Nombre del archivo de copia que se desea restaurar.
+    :param direccion_original: Ruta original donde se restaurará el archivo.
+    :param carpeta_backup: Carpeta donde se almacenan las copias de respaldo. Por defecto es "/host_home/Copias".
+    :return: Mensaje indicando si el archivo fue restaurado correctamente o si ocurrió un error. Si el archivo no existe en el respaldo, retorna un mensaje indicándolo. Si ocurre un error, retorna un mensaje con el error.
+    """
     import os, shutil
     try:
         origen = os.path.join(carpeta_backup, nombre_copia)
