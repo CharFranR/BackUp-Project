@@ -1,77 +1,177 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="home.css">
-    <title>IceBackUp</title>
+    <title>YekoBackup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/home.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <section>
-        <h1>Bienvenidos al proyecto IceBackUp</h1>
-    </section>
-
-    <header>
-        <form action="/logout" method="GET">
-            <button type="submit">Cerrar Sesión</button>
-        </form>
+    <header class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='assets/logo.jpg') }}" alt="YekoBackup Logo">
+            <span>YekoBackup</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="">Inicio</a></li>
+                <li><a href="/respaldo">Aplicacion</a></li>
+                <li><a href="#Documentacion">Documentacion</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <section>
-        <form action="/procesar" method="POST">
-            <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" name="direccion" placeholder="Ingrese la dirección" required>
+    <main>
+        <section class="hero-section">
+            <div class="circle-blue"></div>
+            <div class="circle-grey"></div>
+            <div class="hero-text">
+                <h1>Automatiza hoy</h1>
+                <h1 class="blue-text">Recupera Siempre</h1>
+                <p>Automatiza respaldos de archivos importantes<br>y permite restaurarlos</p>
+                <button class="cta-button">Iniciar Sesion</button>
             </div>
-
-            <div class="form-actions">
-                <input type="submit" value="Enviar">
-            </div>
-        </form>
-
-        <form action="/borrar_registros", method="POST">
-                <div class="form-actions">
-                    <input type="submit" value="Colapsar">
+        </section>
+        
+        <section class="features-section">
+            <div id="Documentacion" class="circle-features-main">
+            <img src="{{ url_for('static', filename='assets/img3.png') }}" alt="Img Respaldo" class="img-3">
+            <img src="{{ url_for('static', filename='assets/img1.png') }}" alt="Img Respaldo" class="img-1">
+            <img src="{{ url_for('static', filename='assets/img2.png') }}" alt="Img Respaldo" class="img-2">
+                <div class="feature-card backup">
+                    <h3>Respaldar</h3>
+                    <p>No dejes tu trabajo al azar. Con nuestros respaldos, tus archivos estarán protegidos siempre.</p>
                 </div>
-        </form>
+                <div class="feature-card restore">
+                    <h3>Restaurar</h3>
+                    <p>Recupera cualquier archivo en segundos, un clic y todo vuelve a estar como antes.</p>
+                </div>
+                <div class="feature-card history">
+                    <h3>Historial</h3>
+                    <p>Cada versión de tu archivo queda guardada. Recupera exactamente lo que necesitas.</p>
+                </div>
+            </div>
+        </section>
 
-    </section>
+        <section class="flow-section">
+            <div class="flow-diagram">
+                <div class="step step-1">
+                    <span class="circle-number">1</span>
+                    <p>Ejecuta el script</p>
+                </div>
+                <div class="step step-2">
+                    <img src="{{ url_for('static', filename='assets/logo2.png') }}" alt="Rabbit Icon">
+                    <p>Selecciona una operacion</p>
+                </div>
+                <div class="step step-3">
+                    <span class="circle-number">3</span>
+                    <p>Obten el resultado</p>
+                </div>
+            </div>
+        </section>
 
-    <section>
-        <table>
-    <thead>
-        <tr>
-            {% if registros and registros[0] %}
-                {% for columna in registros[0].keys() %}
-                    <th>{{ columna }}</th>
-                {% endfor %}
-            {% else %}
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Usuario</th>
-                <th>Acción</th>
-                <th>Dirección</th>
-                <th>Fecha</th>
-            {% endif %}
-        </tr>
-    </thead>
-    <tbody>
-        {% if registros %}
-            {% for registro in registros %}
-                <tr>
-                    {% for valor in registro.values() %}
-                        <td>{{ valor }}</td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="5" style="text-align: center;">No hay registros disponibles</td>
-            </tr>
-        {% endif %}
-    </tbody>
-</table>
-    </section>
+        <section class="tabs-section">
+            <div class="tabs-nav">
+                <button class="tab-button active" data-tab="tecnologias">Tecnologías utilizadas</button>
+                <button class="tab-button" data-tab="estructura">Estructura del Proyecto</button>
+                <button class="tab-button" data-tab="funcionalidades">Funcionalidades</button>
+            </div>
+
+            <div id="tab-content-container" class="tab-content-container">
+                </div>
+        </section>
+
+    </main>
+
+    <script>
+        const tabContents = {
+            tecnologias: `
+                <div class="tab-content">
+                    <div class="sub-heading">
+                        <div class="line"></div>
+                        <span>Stack tecnologico recomendado</span>
+                    </div>
+                    <div class="tech-list">
+                        <p><strong>Lenguaje:</strong> Python 3.8+</p>
+                        <p><strong>SO:</strong> Linux/Windows</p>
+                        <p><strong>Scheduler:</strong> cron/Task Scheduler</p>
+                    </div>
+                </div>
+            `,
+            estructura: `
+                <div class="tab-content">
+                    <div class="sub-heading">
+                        <div class="line"></div>
+                        <span>Organizacion de archivos</span>
+                    </div>
+                    <pre class="file-tree">
+YekoBackup/
+├── backups/
+│   ├── 2025-08-02/
+│   └── 2025-08-01/
+├── restore/
+├── logs/
+└── yekobackup.py
+                    </pre>
+                </div>
+            `,
+            funcionalidades: `
+                <div class="tab-content">
+                    <div class="sub-heading">
+                        <div class="line"></div>
+                        <span>Principales</span>
+                    </div>
+                    <table class="functionalities-table">
+                        <tr>
+                            <td>Respaldo Manual</td>
+                            <td>Seleccion de archivos/carpetas</td>
+                            <td><span class="status implemented">Implementado</span></td>
+                        </tr>
+                        <tr>
+                            <td>Respaldo Automatico</td>
+                            <td>Programacion con cron</td>
+                            <td><span class="status developing">En desarrollo</span></td>
+                        </tr>
+                        <tr>
+                            <td>Versionado</td>
+                            <td>Múltiples versiones de archivos</td>
+                            <td><span class="status implemented">Implementado</span></td>
+                        </tr>
+                        <tr>
+                            <td>Restauracion</td>
+                            <td>Recuperacion de archivos</td>
+                            <td><span class="status implemented">Implementado</span></td>
+                        </tr>
+                        <tr>
+                            <td>Compresion</td>
+                            <td>Archivos ZIP/TAR.GZ</td>
+                            <td><span class="status optional">Opcional</span></td>
+                        </tr>
+                    </table>
+                </div>
+            `
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-button');
+            const container = document.getElementById('tab-content-container');
+
+            function switchTab(tabName) {
+                tabs.forEach(tab => tab.classList.remove('active'));
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+                container.innerHTML = tabContents[tabName];
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchTab(tab.dataset.tab);
+                });
+            });
+
+            switchTab('tecnologias');
+        });
+    </script>
 
 </body>
 </html>

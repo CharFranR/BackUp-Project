@@ -1,40 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>YekoBackup - Iniciar Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            background-color: #1E90FF;
+        }
+        .password-container {
+            position: relative;
+        }
+    </style>
 </head>
-<body>
-    
-    <section>
-        <h1>Bienvenidos al proyecto IceBackUp</h1>
-        <h1>Inicie Sesion</h1>
-    </section>
-
-    <section>
-        <form action="/ProcesarLogin" method="post">
-            <div>
-                <label for="Usuario">Usuario</label>
-                <input type="text" id="Usuario" name="Usuario" placeholder="Usuario" required>
-
-                <label for="Usuario">Contrasenia</label>
-                <input type="password" id="Contrasenia" name="Contrasenia" placeholder="Contrasenia" required>
-            </div>
-            <div>
-                <input type="submit" value="Iniciar Serion">
-            </div>
-        </form>
-        <form action="/redireccionar_signin">
-            <div>
-                <input type="submit" value="Crear cuenta">
-            </div>
-        </form>
-
-        <div>
-            {{mensaje}}
+<body class="bg-[#1E90FF] flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
+        <div class="flex flex-col items-center mb-6">
+            <img src="../assets/LogoV2.jpg" alt="Logo de YekoBackup" class="w-20 h-20 mb-3"/>
+            <h3 class="text-[#1E90FF] font-semibold text-lg text-center">
+                YekoBackup <br> Iniciar Sesión
+            </h3>
         </div>
+        <form action="/ProcesarLogin" method="post" class="space-y-4">
+            <div class="form-group">
+                <label for="user" class="block text-sm font-medium text-gray-700">Usuario</label>
+                <input type="text" id="user" name="user" placeholder="Usuario" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1E90FF] focus:border-[#1E90FF]">
+            </div>
 
-    </section>
+            <div class="password-container">
+                <label for="pass" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                <input type="password" id="pass" name="password" placeholder="Contraseña" class="mt-1 block w-full px-3 py-2 pr-10 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1E90FF] focus:border-[#1E90FF]">
+            </div>
+
+            <div class="form-actions flex justify-between mt-6 space-x-4">
+                <button type="submit" class="w-1/2 bg-[#58A0E4] text-white py-2 px-4 rounded-md shadow-sm hover:bg-[#4a8acd] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#58A0E4]">
+                    Iniciar Sesión
+                </button>
+                <a href="register.html" class="w-1/2 flex items-center justify-center bg-gray-200 text-gray-700 py-2 px-4 rounded-md shadow-sm hover:bg-gray-300">
+                    Registrar
+                </a>
+            </div>
+            <a href="register.html" class="block text-center text-[#1E90FF] mt-4 hover:underline">
+                ¿No tienes una cuenta? Regístrate
+            </a>
+        </form>
+    </div>
 </body>
 </html>
