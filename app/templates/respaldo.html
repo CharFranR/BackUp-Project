@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Respaldo - Aplicación YekoBackup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-[#1E90FF] min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full space-y-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <a href="/home" aria-label="Volver" class="text-[#1E90FF] text-lg">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <img src="{{ url_for('static', filename='assets/LogoV2.jpg') }}" alt="Logo de YekoBackup" class="w-20 h-20"/>
+                <h1 class="text-[#1E90FF] font-semibold text-base text-center">Aplicación YekoBackup</h1>
+            </div>
+            <div class="flex justify-center items-center space-x-5 mb-5">
+                <a href="/respaldo" class="tab-button active" type="button">Respaldo</a>
+                <a href="/restaurar" class="tab-button" type="button">Restaurar</a>
+                <a href="/historial" class="tab-button" type="button">Historial</a>
+            </div>
+            <div id="tab-content">
+                <div id="respaldo" class="tab-pane space-x-5">
+                    <div class="text-xs text-[#1E90FF] font-semibold mb-2 flex items-center space-x-2 ">
+                        <img src="{{ url_for('static', filename='assets/Download.png') }}" alt="Download" style="margin-left: 20px;" class="w-3 h-3"/>
+                        <p class="text-[#000000] font-semibold cursor-pointer ">Respaldo Manual</p>
+                    </div>
+                    <p class="text-xs text-[#525252] mb-4 leading-tight">
+                        Escribir la ruta de carpetas o archivos a respaldar manualmente. El <br>respaldo se guardará en la carpeta " /backups/ " con la fecha actual.</br>
+                    </p>
+                        <section>
+                            <form action="/procesar" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="archivo" class="font-semibold cursor-pointer text-xs text-[#000000] mb-3">Selecciona un archivo para respaldar:</label>
+                                    <input type="file" name="archivo" webkitdirectory directory multiple>
+                                </div>
+                                <div class="flex justify-center mt-3">
+                                <button type="submit" class="primary-button">
+                                    Respaldar
+                                </button>
+                            </form>
+                        </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

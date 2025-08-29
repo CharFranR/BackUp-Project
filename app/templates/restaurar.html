@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Restaurar - Aplicación YekoBackup</title>
+    <!-- TailwindCSS para estilos rápidos y responsivos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Hoja de estilos personalizada -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/styles.css') }}">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-[#1E90FF] min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full space-y-6">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <!-- Encabezado con botón de volver, logo y título -->
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <!-- Botón para volver a la página principal -->
+                <a href="/home" aria-label="Volver" class="text-[#1E90FF] text-lg">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <!-- Logo de la aplicación -->
+                <img src="{{ url_for('static', filename='assets/LogoV2.jpg') }}" alt="Logo de YekoBackup" class="w-20 h-20"/>
+                <!-- Título de la aplicación -->
+                <h1 class="text-[#1E90FF] font-semibold text-base text-center">Aplicación YekoBackup</h1>
+            </div>
+
+            
+
+            <!-- Navegación entre secciones: Respaldo, Restaurar, Historial -->
+            <div class="flex justify-center items-center space-x-5 mb-5">
+                <a href="/respaldo" class="tab-button" type="button">Respaldo</a>
+                <a href="/restaurar" class="tab-button active" type="button">Restaurar</a>
+                <a href="/historial" class="tab-button" type="button">Historial</a>
+            </div>
+            <div id="tab-content">
+                <div id="restaurar" class="tab-pane space-x-6">
+                    <!-- Título y descripción de la sección de restauración -->
+                    <div class="text-xs text-[#1E90FF] font-semibold mb-2 flex items-center space-x-1">
+                        <!-- Icono de reloj para ilustrar restauración -->
+                        <img src="{{ url_for('static', filename='assets/Clock_Load.png') }}" alt="Download" style="margin-left: 20px;" class="w-4 h-4"/>
+                        <p class="text-xs text-[#000000] font-semibold cursor-pointer">Restaurar Archivos</p>
+                    </div>
+                    <!-- Descripción breve de la funcionalidad -->
+                    <p class="text-xs text-[#525252] mb-3 leading-tight">
+                        Elige un respaldo y selecciona qué archivo o carpeta deseas restaurar.
+                    </p>
+                    <!-- Sección del formulario para restaurar archivos -->
+                    <section>
+                        <!-- Formulario para solicitar la restauración de un archivo/carpeta -->
+                        <form action="/ProcesarRecover" method="POST">
+                            <div class="form-group relative mb-8">
+                                <!-- Campo para ingresar el nombre del archivo/carpeta a restaurar -->
+                                <label for="nombre" class="font-semibold cursor-pointer text-xs text-[#000000] mb-3">Nombre:</label>
+                                <input class="input-field text-[##595959]" type="text" id="nombre" name="nombre"  placeholder="Archivo que quiere recuperar" required>
+                            </div>
+                            <!-- Botón para enviar el formulario y restaurar -->
+                            <div class="form-actions flex justify-center mt-3">
+                                <button type="submit" class="primary-button">
+                                    Restaurar
+                                </button>
+                            </div>
+                            <div class="border border-[#525252] rounded p-3 text-[#000000] text-xs font-semibold overflow-x-auto mt-6">
+    <table class="w-full text-xs text-[#525252] font-semibold">
+        <thead>
+            <tr class="border-b border-[#525252]">
+                <th>Nombre</th>
+                
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if recuperaciones %}
+                {% for recu in recuperaciones %}
+                    <tr>
+                        <td class="p-2">{{ recu['nombre'] }}</td>
+                        <td class="p-2">{{ recu['fecha'] }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4" class="p-2" style="text-align: center;">No hay recuperaciones registradas</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    

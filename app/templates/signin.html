@@ -7,33 +7,36 @@
 </head>
 <body>
 
+     <!-- Sección de bienvenida y título -->
      <section>
         <h1>Bienvenidos al proyecto IceBackUp</h1>
         <h1>Cree una cuenta</h1>
     </section>
 
     <section>
+        <!-- Formulario para registrar un nuevo usuario -->
         <form action="/ProcesarSignIn" method="post">
             <div>
+                <!-- Campo para ingresar el nombre de usuario -->
                 <label for="Usuario">Usuario</label>
                 <input type="text" id="Usuario" name="Usuario" placeholder="Usuario" required>
 
+                <!-- Campo para ingresar la contraseña -->
                 <label for="Usuario">Contrasenia</label>
                 <input type="password" id="Contrasenia" name="Contrasenia" placeholder="Contrasenia" required>
             </div>
             <div>
+                <!-- Botón para enviar el formulario y registrarse -->
                 <input type="submit" value="Registrarse">
             </div>
         </form>
 
+        <!-- Formulario para redirigir a la página de inicio de sesión -->
         <form action="/redireccionar_login">
             <div>
+                <!-- Botón para ir a la página de inicio de sesión -->
                 <input type="submit" value="Iniciar Sesion">
             </div>           
         </form>
 
-        <div>{{mensaje}}</div>
-
-    </section>
-</body>
-</html>
+        <!-- Sección para mostrar mensajes de resultado (éxito o error) -->
