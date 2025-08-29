@@ -3,10 +3,10 @@ services:
     build: .
     volumes:
       - ./app:/app
-      - /c/Users/Nombre:/host_home    
-      - /c/Users/Nombre/Documents:/host_documents
-      - /c/Users/Nombre/Documents:/desktop
-      - /c/Users/Nombre/Documents:/pictures
+      - /c/Users/oscar:/host_home    
+      - /c/Users/oscar/Documents:/host_documents
+      - /c/Users/oscar/Documents:/desktop
+      - /c/Users/oscar/Documents:/pictures
 
     depends_on:
       - db

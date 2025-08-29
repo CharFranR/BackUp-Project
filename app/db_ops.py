@@ -22,7 +22,7 @@ def admin(db, usuario, contrasenia):
     try:
         id_usuario = obtener_id_usuario(db, usuario)
         if id_usuario:
-            return id_usuario
+            return None  # Usuario ya existe, no permitir duplicados
         query = """
         INSERT INTO usuarios (usuario, contrasenia)
         VALUES (%s, %s)
@@ -136,11 +136,12 @@ def mostrar_registros(db, filtro_id=None):
    
     try:
         query = """
-        SELECT *
+        SELECT nombre, tipo, tamanio, fecha, direccion
         FROM registros
+        WHERE id_usuarios = %s
         ORDER BY fecha DESC
         """
-        params = ()
+        params = (filtro_id,)
             
         with db.conectar() as conn:
             with conn.cursor() as cur:
@@ -152,9 +153,6 @@ def mostrar_registros(db, filtro_id=None):
 
                 column_names = [desc[0] for desc in cur.description]
                 
-                if not registros:
-                    return (True, "No hay registros encontrados")
-                
                 resultados = []
                 for reg in registros:
                     resultados.append(dict(zip(column_names, reg)))
@@ -164,6 +162,50 @@ def mostrar_registros(db, filtro_id=None):
     except Exception as e:
         return (False, f"Error al leer registros: {e}")
     
+def registar_recuperacion(db, nombre):
+    try:
+        query = """
+        INSERT INTO recuperaciones (nombre, fecha)
+        VALUES (%s,  CURRENT_TIMESTAMP)
+        RETURNING id
+        """
+        with db.conectar() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, (nombre, ))
+                recuperacion_id = cur.fetchone()[0]
+                conn.commit()
+        return (True, recuperacion_id)
+    except Exception as e:
+        error_msg = f"Error al insertar registro de recuperación: {e}"
+        print(error_msg)
+        return (False, error_msg)
+
+
+def mostrar_recuperaciones (db, filtro_id=None):
+    try:
+        query = """
+        SELECT nombre, fecha
+        FROM recuperaciones
+        ORDER BY fecha DESC
+        """
+        params = ()
+
+        with db.conectar() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, params)
+                recuperaciones = cur.fetchall()
+
+                if not recuperaciones:
+                    return (True, [])
+                column_names = [desc[0] for desc in cur.description]
+
+                resultados = []
+                for reg in recuperaciones:
+                    resultados.append(dict(zip(column_names, reg)))
+                return (True, resultados)
+
+    except Exception as e:
+        return (False, f"Error al leer recuperaciones: {e}")
 
 def obtener_id_usuario(db, usuario):
     """
@@ -193,14 +235,14 @@ def validar_usuario (db, usuario, contrasenia):
     """
     query = """
     SELECT id
-    FROM Usuarios 
+    FROM usuarios 
     WHERE usuario = %s AND contrasenia = %s
     """
     with db.conectar() as conn:
         with conn.cursor () as cur:
             cur.execute(query, (usuario, contrasenia))
             resultado = cur.fetchone()
-            return resultado [0] if resultado else 0
+            return resultado [0] if resultado else None
 
     
 
@@ -270,4 +312,23 @@ def obtener_registro_por_nombre(db, nombre):
         print(f"Error al obtener registro: {e}")
     return None
 
-
+def registrar_ingreso(db, usuario_id):
+    """
+    Registra un ingreso (inicio de sesión) en la tabla ingresos.
+    :param db: Objeto de conexión a la base de datos.
+    :param usuario_id: ID del usuario que inicia sesión.
+    :return: True si se registró correctamente, False en caso de error.
+    """
+    try:
+        query = """
+        INSERT INTO ingresos (id_usuarios, fecha)
+        VALUES (%s, CURRENT_TIMESTAMP)
+        """
+        with db.conectar() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query, (usuario_id,))
+                conn.commit()
+        return True
+    except Exception as e:
+        print(f"Error al registrar ingreso: {e}")
+        return False

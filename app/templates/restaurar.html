@@ -25,6 +25,9 @@
                 <!-- Título de la aplicación -->
                 <h1 class="text-[#1E90FF] font-semibold text-base text-center">Aplicación YekoBackup</h1>
             </div>
+
+            
+
             <!-- Navegación entre secciones: Respaldo, Restaurar, Historial -->
             <div class="flex justify-center items-center space-x-5 mb-5">
                 <a href="/respaldo" class="tab-button" type="button">Respaldo</a>
@@ -58,9 +61,36 @@
                                     Restaurar
                                 </button>
                             </div>
+                            <div class="border border-[#525252] rounded p-3 text-[#000000] text-xs font-semibold overflow-x-auto mt-6">
+    <table class="w-full text-xs text-[#525252] font-semibold">
+        <thead>
+            <tr class="border-b border-[#525252]">
+                <th>Nombre</th>
+                
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if recuperaciones %}
+                {% for recu in recuperaciones %}
+                    <tr>
+                        <td class="p-2">{{ recu['nombre'] }}</td>
+                        <td class="p-2">{{ recu['fecha'] }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4" class="p-2" style="text-align: center;">No hay recuperaciones registradas</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
                         </form>
                     </section>
                 </div>
             </div>
         </div>
     </div>
+    
+    

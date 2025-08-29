@@ -58,6 +58,14 @@ class Database:
         )
         """
 
+        command_recuperaciones = """
+        CREATE TABLE IF NOT EXISTS recuperaciones (
+            id SERIAL PRIMARY KEY,
+            nombre VARCHAR(50) NOT NULL,
+            fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+
         command_ingresos = """
         CREATE TABLE IF NOT EXISTS ingresos (
             id SERIAL PRIMARY KEY,
@@ -75,6 +83,8 @@ class Database:
                         print("Tabla 'usuarios' creada exitosamente")
                         cur.execute(command_registros)
                         print("Tabla 'registros' creada exitosamente")
+                        cur.execute(command_recuperaciones)
+                        print("Tabla 'ingresos' creada exitosamente")
                         cur.execute(command_ingresos)
                         print("Tabla 'ingresos' creada exitosamente")
                 return True
