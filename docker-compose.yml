@@ -3,10 +3,10 @@ services:
     build: .
     volumes:
       - ./app:/app
-      - /c/Users/YE 2025:/host_home    
-      - /c/Users/YE 2025/Documents:/host_documents
-      - /c/Users/YE 2025/Documents:/desktop
-      - /c/Users/YE 2025/Documents:/pictures
+      - /c/Users/oscar:/host_home    
+      - /c/Users/oscar/Documents:/host_documents
+      - /c/Users/oscar/Documents:/desktop
+      - /c/Users/oscar/Documents:/pictures
 
     depends_on:
       - db
