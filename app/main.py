@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
-from db_ops import init_db, mostrar_registros, insertar_registro, eliminar_tabla_registros, admin, obtener_ruta, restaurar_archivo, validar_usuario, obtener_registro_por_nombre, obtener_ultimo_id
-from ops import verificar_ruta, copiar_a_documentos, obtener_metadatos
+from db_ops import init_db, mostrar_registros, insertar_registro, eliminar_tabla_registros, admin, obtener_ruta, validar_usuario, obtener_registro_por_nombre, obtener_ultimo_id
+from ops import verificar_ruta, copiar_a_documentos, obtener_metadatos, restaurar_archivo
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
@@ -16,8 +16,27 @@ app.secret_key = "una_clave_secreta_segura"
 
 ###Paginas visitables
 @app.route('/', methods=['GET', 'POST'])
+def login():
+    return render_template('login.html')
 
+@app.route('/home', methods=['GET', 'POST'])
 def home():
+    return render_template('home.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    return render_template('register.html')
+
+@app.route('/respaldo', methods=['GET', 'POST'])
+def mostrar_recover():
+    return render_template('respaldo.html')
+
+@app.route('/restaurar', methods=['GET', 'POST'])
+def restaurar():
+    return render_template('restaurar.html')
+
+@app.route('/historial', methods=['GET', 'POST'])
+def historial():
     success, data = mostrar_registros(db)
     
     if not success:
@@ -28,23 +47,7 @@ def home():
         
     registros = data if isinstance(data, list) else []
 
-    return render_template('home.html', registros=data)
-
-@app.route('/recover', methods=['GET', 'POST'])
-
-def mostrar_recover():
-    return render_template('recover.html')
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    return render_template('login.html')
-
-@app.route('/signin', methods=['GET', 'POST'])
-def singin():
-
-    return render_template('signin.html')
-
+    return render_template('historial.html', registros=data)
 
 ###Direcciones de funciones
 @app.route('/procesar', methods=['GET', 'POST'])
@@ -93,7 +96,7 @@ def procesar_formulario():
         )
 
         if resultado[0]:
-            return redirect('/')
+            return redirect('/respaldo')
         else:
             return f"Error al guardar: {resultado[1]}", 400
 
@@ -113,7 +116,7 @@ def procesar_recover():
     else:
         mensaje = "No se encontró el registro"
 
-    return render_template('recover.html', mensaje=mensaje)
+    return redirect('/restaurar')
 
 @app.route('/ProcesarLogin', methods=['GET', 'POST'])
 def validar_credenciales():
@@ -124,16 +127,22 @@ def validar_credenciales():
 
     if validacion != 0:
         session['usuario'] = usuario
-        return redirect('/')
+        return redirect('/home')
     else:
-        return redirect('/login')
+        return redirect('/')
 
-@app.route('/ProcesarSignIn', methods=['GET', 'POST'])
+@app.route('/ProcesarRegister', methods=['GET', 'POST'])
 def añadir_usuario():
     usuario = request.form.get('Usuario')
     contrasenia = request.form.get('Contrasenia')
+    confirmar_contrasenia = request.form.get('Confirmar_Contrasenia')
+
+    if contrasenia != confirmar_contrasenia:
+        return "Las contraseñas no coinciden", 400
     id = admin(db,usuario,contrasenia)
-    return redirect('/login')
+    return redirect('/')
+
+
 
 @app.route('/redireccionar_signin', methods=['GET', 'POST'])
 def redireccionar_signin():

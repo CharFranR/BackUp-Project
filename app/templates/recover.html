@@ -7,21 +7,23 @@
 </head>
 <body>
 
+    <!-- Sección principal del formulario de recuperación -->
     <section>
+        <!-- Formulario para solicitar la recuperación de un archivo -->
         <form action="/ProcesarRecover" method="post">
             <div class="form-group">
+                <!-- Campo para ingresar el nombre del archivo a recuperar -->
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Archivo que quiere recuperar" required>
             </div>
             <div class="form-actions">
+                <!-- Botón para enviar el formulario y recuperar el archivo -->
                 <input type="submit" value="recuperar">
             </div>
         </form>
     </section>
 
+    <!-- Sección para mostrar mensajes de resultado (éxito o error) -->
     <div>
         <h2>{{mensaje}}</h2>
     </div>
-    
-</body>
-</html>

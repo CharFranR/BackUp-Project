@@ -258,3 +258,178 @@ El frontend está compuesto por archivos `.html` y `.css` que definen la interfa
 **Ruta:** `/logout`  
 **Métodos:** `GET`  
 **Retorna:** Redirige a la página
+
+...existing code...
+
+---
+
+## Documentación del Frontend
+
+El frontend de YekoBackUp está compuesto por archivos HTML y CSS que definen la interfaz gráfica y la experiencia de usuario. A continuación se describen los principales archivos, su propósito y los elementos que contienen:
+
+---
+
+### Estructura de archivos principales
+
+- `login.html`: Página de inicio de sesión.
+- `register.html`: Página de registro de nuevos usuarios.
+- `home.html`: Página principal tras iniciar sesión, muestra información general y navegación.
+- `respaldo.html`: Página para realizar respaldos manuales de archivos o carpetas.
+- `restaurar.html`: Página para restaurar archivos respaldados.
+- `historial.html`: Página que muestra el historial de respaldos y restauraciones.
+- `recover.html`: Página alternativa para recuperación de archivos (versión simple).
+- `signin.html`: Página alternativa de registro (versión simple).
+- `style.css`, `home.css`, `styles.css`: Hojas de estilo para la personalización visual.
+- Carpeta `assets/`: Imágenes y logotipos utilizados en la interfaz.
+
+---
+
+### Detalle de cada archivo
+
+#### `login.html`
+**Propósito:**  
+Permite al usuario iniciar sesión en la aplicación.
+
+**Elementos principales:**  
+- Formulario con campos para usuario y contraseña (`name="Usuario"` y `name="Contrasenia"`).
+- Botón para enviar el formulario y acceder.
+- Enlaces para registrar un nuevo usuario.
+- Uso de TailwindCSS para estilos y responsividad.
+- Logo de la aplicación en la parte superior.
+
+---
+
+#### `register.html`
+**Propósito:**  
+Permite a nuevos usuarios crear una cuenta.
+
+**Elementos principales:**  
+- Formulario con campos para usuario, contraseña y confirmación de contraseña (`name="Usuario"`, `name="Contrasenia"`, `name="Confirmar_Contrasenia"`).
+- Botón para enviar el formulario y registrarse.
+- Enlace para volver a la página de inicio de sesión.
+- Uso de TailwindCSS para estilos y responsividad.
+- Logo de la aplicación en la parte superior.
+
+---
+
+#### `home.html`
+**Propósito:**  
+Página principal tras iniciar sesión, muestra información general, navegación y acceso a funcionalidades.
+
+**Elementos principales:**  
+- Barra de navegación con enlaces a Inicio, Aplicación (respaldo), y Cerrar Sesión.
+- Sección de bienvenida con mensajes motivacionales.
+- Sección de características principales (respaldo, restaurar, historial) con imágenes ilustrativas.
+- Sección de tabs con información sobre tecnologías utilizadas, estructura del proyecto y funcionalidades.
+- Script para cambiar el contenido de los tabs dinámicamente.
+- Uso de Google Fonts y TailwindCSS para estilos.
+
+---
+
+#### `respaldo.html`
+**Propósito:**  
+Permite al usuario realizar respaldos manuales de archivos o carpetas.
+
+**Elementos principales:**  
+- Formulario para seleccionar archivos o carpetas a respaldar.
+- Botón para iniciar el respaldo.
+- Navegación entre respaldo, restaurar e historial.
+- Uso de TailwindCSS y Font Awesome para estilos e iconos.
+
+---
+
+#### `restaurar.html`
+**Propósito:**  
+Permite al usuario restaurar archivos respaldados.
+
+**Elementos principales:**  
+- Formulario para ingresar el nombre del archivo/carpeta a restaurar.
+- Botón para restaurar.
+- Navegación entre respaldo, restaurar e historial.
+- Uso de TailwindCSS y Font Awesome para estilos e iconos.
+
+---
+
+#### `historial.html`
+**Propósito:**  
+Muestra el historial de respaldos y restauraciones realizados por el usuario.
+
+**Elementos principales:**  
+- Tabla (o lista) con los registros de respaldos y restauraciones.
+- Botón para limpiar el historial.
+- Navegación entre respaldo, restaurar e historial.
+- Uso de TailwindCSS y Font Awesome para estilos e iconos.
+
+---
+
+#### `recover.html`
+**Propósito:**  
+Página alternativa para recuperación de archivos (versión simple).
+
+**Elementos principales:**  
+- Formulario para ingresar el nombre del archivo a recuperar.
+- Botón para recuperar.
+- Mensaje de resultado de la operación.
+
+---
+
+#### `signin.html`
+**Propósito:**  
+Página alternativa de registro de usuario (versión simple).
+
+**Elementos principales:**  
+- Formulario para crear una nueva cuenta (usuario y contraseña).
+- Botón para registrarse.
+- Botón para ir a la página de inicio de sesión.
+- Mensaje de resultado de la operación.
+
+---
+
+#### `style.css`, `home.css`, `styles.css`
+**Propósito:**  
+Definen los estilos personalizados para la aplicación.
+
+**Elementos principales:**  
+- Colores, fuentes, disposición de elementos y estilos responsivos.
+- Clases personalizadas para botones, formularios, tablas y navegación.
+- Adaptación para dispositivos móviles y de escritorio.
+
+---
+
+#### Carpeta `assets/`
+**Propósito:**  
+Contiene imágenes y logotipos utilizados en la interfaz.
+
+**Elementos principales:**  
+- Logos de la aplicación.
+- Imágenes ilustrativas para las secciones de características y tabs.
+
+---
+
+### Navegación y flujo de usuario
+
+- `/` o `/login`: Página de inicio de sesión.
+- `/register` o `/signin`: Página de registro de usuario.
+- `/home`: Página principal tras iniciar sesión.
+- `/respaldo`: Página para realizar respaldos.
+- `/restaurar` o `/recover`: Página para restaurar archivos.
+- `/historial`: Página de historial de respaldos y restauraciones.
+
+---
+
+### Dependencias del frontend
+
+- [TailwindCSS](https://tailwindcss.com/): Framework de utilidades CSS para estilos rápidos y responsivos.
+- [Boxicons](https://boxicons.com/): Iconos vectoriales para la interfaz.
+- [Google Fonts](https://fonts.google.com/): Tipografía personalizada.
+- [Font Awesome](https://fontawesome.com/): Iconos adicionales para la interfaz.
+
+---
+
+### Notas adicionales
+
+- El frontend utiliza plantillas Jinja2 para la integración con Flask y la inserción dinámica de datos.
+- Las rutas de los formularios y enlaces están conectadas con las rutas del backend para el procesamiento de datos y navegación.
+- El diseño es responsivo y está optimizado para dispositivos móviles y de escritorio.
+
+---

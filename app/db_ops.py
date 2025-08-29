@@ -271,25 +271,3 @@ def obtener_registro_por_nombre(db, nombre):
     return None
 
 
-def restaurar_archivo(nombre_copia, direccion_original, carpeta_backup="/host_home/Copias"):
-    """
-    Esta función restaura un archivo desde una carpeta de respaldo a su ubicación original.
-    
-    :param nombre_copia: Nombre del archivo de copia que se desea restaurar.
-    :param direccion_original: Ruta original donde se restaurará el archivo.
-    :param carpeta_backup: Carpeta donde se almacenan las copias de respaldo. Por defecto es "/host_home/Copias".
-    :return: Mensaje indicando si el archivo fue restaurado correctamente o si ocurrió un error. Si el archivo no existe en el respaldo, retorna un mensaje indicándolo. Si ocurre un error, retorna un mensaje con el error.
-    """
-    import os, shutil
-    try:
-        origen = os.path.join(carpeta_backup, nombre_copia)
-        carpeta_destino = os.path.dirname(direccion_original)
-
-        if not os.path.exists(origen):
-            return f"No existe en backup: {origen}"
-
-        os.makedirs(carpeta_destino, exist_ok=True)
-        shutil.copy(origen, carpeta_destino)
-        return f"Archivo restaurado en {carpeta_destino}"
-    except Exception as e:
-        return f"Error al restaurar archivo: {e}"

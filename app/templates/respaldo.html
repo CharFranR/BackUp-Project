@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YekoBackup - Registrar</title>
+    <!-- Hoja de estilos personalizada -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
+    <!-- TailwindCSS para estilos rápidos y responsivos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#1E90FF] flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
+        <!-- Encabezado con logo y título -->
+        <div class="flex flex-col items-center mb-6">
+            <!-- Logo de la aplicación -->
+            <img src="{{ url_for('static', filename='assets/LogoV2.jpg') }}" alt="Logo de YekoBackup" class="w-20 h-20 mb-3"/>
+            <!-- Título de la página -->
+            <h3 class="text-[#1E90FF] font-semibold text-lg text-center">
+                YekoBackup <br> Registrar
+            </h3>
+        </div>
+        <!-- Formulario de registro de usuario -->
+        <form action="/ProcesarRegister" method="post" class="space-y-4">
+            <!-- Campo para ingresar el nombre de usuario -->
+            <div class="form-group">
+                <label for="user" class="block text-sm font-medium text-gray-700">Usuario</label>
+                <input type="text" id="user" name="Usuario" placeholder="Usuario" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1E90FF] focus:border-[#1E90FF]">
+            </div>
+            <!-- Campo para ingresar la contraseña -->
+            <div>
+                <label for="pass" class="block text-sm font-medium text-gray-700">Contrasenia</label>
+                <input type="password" id="pass" name="Contrasenia" placeholder="Contrasenia" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1E90FF] focus:border-[#1E90FF]">
+            </div>
+            <!-- Campo para confirmar la contraseña -->
+            <div>
+                <label for="confirm-pass" class="block text-sm font-medium text-gray-700">Confirmar_Contrasenia</label>
+                <input type="password" id="confirm-pass" name="Confirmar_Contrasenia" placeholder="Confirmar Contraseña" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#1E90FF] focus:border-[#1E90FF]">
+            </div>
+            <!-- Botón para enviar el formulario y registrarse -->
+            <div class="form-actions flex justify-between mt-6 space-x-4">
+                <button type="submit" class="w-full bg-[#58A0E4] text-white py-2 px-10 rounded-md shadow-sm hover:bg-[#4a8acd] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#58A0E4]">
+                    Registrarse
+                </button>
+            </div>
+
+            <!-- Enlace para volver a la página de inicio de sesión -->
+            <form action="/redireccionar_login">
+                <a href="/" type="button" class="block text-center text-[#1E90FF] mt-4 hover:underline">
+                    ¿Tienes una cuenta? Inicia Sesión
+                </a>
+            </form>
+
+        </form>
+    </div>
+</body>
